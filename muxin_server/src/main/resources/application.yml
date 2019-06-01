@@ -21,3 +21,15 @@ logging:
   level:
     com.haylion.maascharge.dao.mapper.*: debug
 
+# ===================================================================
+# 分布式文件系统FDFS配置
+# ===================================================================
+fdfs:
+  so-timeout: 1501
+  connect-timeout: 601
+  thumb-image:             #缩略图生成参数
+    width: 80
+    height: 80
+  tracker-list:            #TrackerList参数,支持多个
+    - 192.168.153.131:22122
+

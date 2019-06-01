@@ -2,4 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wgx.muxin.dao.mapper.ChatMsgMapper">
 
+    <insert id="saveChatMsg" parameterType="com.wgx.muxin.dao.model.ChatMsg">
+        INSERT INTO chat_msg
+        (id, send_user_id, accept_user_id, msg, sign_flag, create_time)
+        VALUES (#{chatMsg.id}, #{chatMsg.sendUserId}, #{chatMsg.acceptUserId},
+         #{chatMsg.msg}, #{chatMsg.signFlag}, #{chatMsg.createTime})
+    </insert>
+
+    <update id="updateMsgSigned" parameterType="list">
+        UPDATE chat_msg SET
+        sign_flag = 1
+        WHERE
+        id IN
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+    <select id="getUnReadMsgList" resultType="com.wgx.muxin.dao.model.ChatMsg" parameterType="java.lang.String">
+        SELECT * FROM chat_msg WHERE accept_user_id = #{acceptUserId} AND sign_flag = 0
+    </select>
 </mapper>

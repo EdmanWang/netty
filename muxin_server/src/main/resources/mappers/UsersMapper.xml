@@ -6,6 +6,11 @@
             WHERE username = #{users.username}
      </select>
 
+    <select id="selectOneByUsername" parameterType="java.lang.String" resultType="com.wgx.muxin.dao.model.Users">
+        SELECT * from users
+        WHERE username = #{username}
+    </select>
+
     <select id="queryUsersForLogin" parameterType="com.wgx.muxin.dao.model.Users"
             resultType="com.wgx.muxin.dao.model.Users">
         SELECT * from users
@@ -21,4 +26,31 @@
              #{users.faceImageBig}, #{users.nickname}, #{users.qrcode}, #{users.cid}
          )
     </insert>
+
+    <update id="updateUserInfo" parameterType="com.wgx.muxin.dao.model.Users">
+        UPDATE users u SET u.face_image = #{users.faceImage}, u.face_image_big = #{users.faceImageBig}
+        WHERE u.id =  #{users.id}
+    </update>
+
+    <select id="getUserById" parameterType="java.lang.String" resultType="com.wgx.muxin.dao.model.Users">
+        SELECT * FROM users WHERE id = #{id}
+    </select>
+
+    <update id="updateUserNicknameByUserId" parameterType="com.wgx.muxin.dao.model.Users">
+       UPDATE users set nickname = #{users.nickname} WHERE id = #{users.id}
+    </update>
+
+    <select id="queryFriendRequests" resultType="com.wgx.muxin.dao.model.vo.FriendRequestVo"
+            parameterType="java.lang.String">
+        SELECT
+            u.id AS sendId,
+            u.username AS sendUsername,
+            u.face_image AS sendFaceImage,
+            u.nickname AS sendNickname
+        FROM
+            users u LEFT JOIN friends_request fr ON u.id = fr.send_user_id
+        WHERE
+            fr.accept_user_id = #{userId}
+    </select>
+
 </mapper>

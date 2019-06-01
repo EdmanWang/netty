@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wgx.muxin.dao.mapper.FriendsRequestMapper">
+    <select id="queryRequest" parameterType="com.wgx.muxin.dao.model.FriendsRequest" resultType="com.wgx.muxin.dao.model.FriendsRequest">
+        SELECT *  FROM friends_request
+        WHERE send_user_id = #{friendsRequest.sendUserId} and accept_user_id = #{friendsRequest.acceptUserId}
+    </select>
 
+    <insert id="addRequest" parameterType="com.wgx.muxin.dao.model.FriendsRequest">
+        INSERT INTO friends_request (id, send_user_id, accept_user_id, request_date_time)
+        VALUES (#{friendsRequest.id}, #{friendsRequest.sendUserId}, #{friendsRequest.acceptUserId}, #{friendsRequest.requestDateTime})
+    </insert>
+
+    <delete id="deleteRequest" parameterType="java.lang.String">
+        DELETE  FROM friends_request
+        WHERE send_user_id = #{sendUserId} AND accept_user_id = #{acceptUserId}
+    </delete>
 </mapper>

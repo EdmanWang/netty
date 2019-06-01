@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wgx.muxin.dao.mapper.MyFriendsMapper">
+   <select id="selectOneByExample" parameterType="com.wgx.muxin.dao.model.MyFriends"
+           resultType="com.wgx.muxin.dao.model.MyFriends">
+       SELECT * FROM my_friends
+       WHERE my_user_id = #{friends.myUserId} AND my_friend_user_id = #{friends.myFriendUserId}
+   </select>
 
+    <insert id="addFriend" parameterType="com.wgx.muxin.dao.model.MyFriends">
+        INSERT INTO my_friends (id, my_user_id, my_friend_user_id) VALUES (#{friends.id}, #{friends.myUserId}, #{friends.myFriendUserId})
+    </insert>
+
+    <select id="myFriendsList" parameterType="java.lang.String" resultType="com.wgx.muxin.dao.model.vo.FriendVo">
+        SELECT
+            u.id AS friendUserId,
+            u.nickname AS friendNickname,
+            u.face_image AS friendFaceImage,
+            u.username AS friendUsername
+        FROM
+            users u
+            LEFT JOIN my_friends my ON u.id = my.my_friend_user_id
+        WHERE
+            my.my_user_id = #{userId}
+    </select>
 </mapper>
